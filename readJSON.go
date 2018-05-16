@@ -18,14 +18,13 @@ type Product struct {
 	Title      string   `json:"title"`
 }
 
-func readJSON(filePath string) ([]Product, error) {
+func (s *Softwareadvice) readJSON(filePath string) error {
 	raw, err := ioutil.ReadFile(filePath)
 	if err != nil {
 		fmt.Println(err.Error())
-		return []Product{}, err
+		return err
 	}
 
-	var c Softwareadvice
-	json.Unmarshal(raw, &c)
-	return c.Products, nil
+	json.Unmarshal(raw, &s)
+	return nil
 }

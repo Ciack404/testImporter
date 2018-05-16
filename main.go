@@ -4,6 +4,7 @@ import (
 	"flag"
 	"os"
 	"log"
+	"strings"
 )
 
 // Flags
@@ -13,11 +14,6 @@ var (
 
 func main() {
 	flag.Parse()
-
-	productList, err := readJSON(*filePath)
-	if err != nil {
-		os.Exit(1)
-	}
 
 	// MOCKING DB CREDS AND CONNECTION
 	// mongoDBDialInfo := &mgo.DialInfo{
@@ -33,12 +29,46 @@ func main() {
 	// }
 
 
-	for _, product := range productList {
-		// IF WE HAD A DB SESSION THIS WOULD BE THE CORRECT CALL
-		// err = insertRecord(product, mongoDBDialInfo)
-		err = insertRecord(product)
+	splittedPath:= strings.Split(*filePath, ".")
+
+	if len(splittedPath) < 2 {
+		log.Println("Invalid file: missing extension")
+	}
+	if splittedPath[len(splittedPath)-1] != "json" && splittedPath[len(splittedPath)-1] != "yaml" {
+			log.Println("Unexpected file extension (expecting .json or .yaml)")
+	}
+
+	if splittedPath[len(splittedPath)-1] == "json" {
+		productList := Softwareadvice{}
+		err := productList.readJSON(*filePath)
 		if err != nil {
-			log.Printf("Failed inserting record: %s", err)
+			os.Exit(1)
+		}
+
+		for _, product := range productList.Products {
+			// IF WE HAD A DB SESSION COLLECTION THIS WOULD BE THE CORRECT CALL
+			// collection := mongoSession.DB("TestDatabase").C("softwareadvice")
+			// err = insertRecord(product, collection)
+			err = insertSoftwareadviceRecord(product)
+			if err != nil {
+				log.Printf("Failed inserting record: %s", err)
+			}
+		}
+	} else {
+		productList := Capterra{}
+		err := productList.readYAML(*filePath)
+		if err != nil {
+			os.Exit(1)
+		}
+
+		for _, product := range productList {
+			// IF WE HAD A DB SESSION COLLECTION THIS WOULD BE THE CORRECT CALL
+			// collection := mongoSession.DB("TestDatabase").C("capterra")
+			// err = insertRecord(product, collection)
+			err = insertCapterraRecord(product)
+			if err != nil {
+				log.Printf("Failed inserting record: %s", err)
+			}
 		}
 	}
 }
