@@ -16,4 +16,4 @@ No, I use Golang and MongoDB
 
 - What would you have done differently if you had had more time
 
-Added more tests
+Added more tests, used merge requests instead of committing and pushing master
