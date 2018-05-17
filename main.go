@@ -48,8 +48,8 @@ func main() {
 		for _, product := range productList.Products {
 			// IF WE HAD A DB SESSION COLLECTION THIS WOULD BE THE CORRECT CALL
 			// collection := mongoSession.DB("TestDatabase").C("softwareadvice")
-			// err = insertRecord(product, collection)
-			err = insertSoftwareadviceRecord(product)
+			// err = product.insertSoftwareadviceRecord(collection)
+			err = product.insertSoftwareadviceRecord()
 			if err != nil {
 				log.Printf("Failed inserting record: %s", err)
 			}
@@ -64,8 +64,8 @@ func main() {
 		for _, product := range productList {
 			// IF WE HAD A DB SESSION COLLECTION THIS WOULD BE THE CORRECT CALL
 			// collection := mongoSession.DB("TestDatabase").C("capterra")
-			// err = insertRecord(product, collection)
-			err = insertCapterraRecord(product)
+			// err = product.insertCapterraRecord(collection)
+			err = product.insertCapterraRecord()
 			if err != nil {
 				log.Printf("Failed inserting record: %s", err)
 			}
