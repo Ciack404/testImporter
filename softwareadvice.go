@@ -31,7 +31,7 @@ func (s *Softwareadvice) readJSON(filePath string) error {
 
 // THIS IS HOW THE FUNCTION EXPECTING THE DB SESSION WOULD BE
 // func insertRecord(prod Product, collection *mgo.Collection) error {
-func (p *Product) insertSoftwareadviceRecord error {
+func (p *Product) insertSoftwareadviceRecord() error {
   report := fmt.Sprintf("importing: Name: \"%s\"; Categories: ", p.Title)
   for i, cat := range p.Categories {
     if i == len(p.Categories)-1 {

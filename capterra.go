@@ -31,8 +31,8 @@ func (c *Capterra) readYAML(filePath string) error {
 
 // THIS IS HOW THE FUNCTION EXPECTING THE DB SESSION WOULD BE
 // func (p *CapterraProduct) insertRecord(collection *mgo.Collection) error {
-func (p *CapterraProduct) insertCapterraRecord error {
-  fmt.Printf("importing: Name: \"%s\"; Categories: %s; Twitter: %s", p.Name, p.Tags, p.Twitter)
+func (p *CapterraProduct) insertCapterraRecord() error {
+  fmt.Printf("importing: Name: \"%s\"; Categories: %s; Twitter: %s\n", p.Name, p.Tags, p.Twitter)
 
   // err := collection.Insert(p)
 	// if err != nil {
