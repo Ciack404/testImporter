@@ -32,15 +32,20 @@ func main() {
 	splittedPath:= strings.Split(*filePath, ".")
 
 	if len(splittedPath) < 2 {
-		log.Println("Invalid file: missing extension")
+		log.Fatal("Invalid file: missing extension")
 	}
 	if splittedPath[len(splittedPath)-1] != "json" && splittedPath[len(splittedPath)-1] != "yaml" {
-			log.Println("Unexpected file extension (expecting .json or .yaml)")
+			log.Fatal("Unexpected file extension (expecting .json or .yaml)")
+	}
+
+	sourceFile, err := readFile(*filePath)
+	if err != nil {
+		log.Fatal("Failed reading file")
 	}
 
 	if splittedPath[len(splittedPath)-1] == "json" {
 		productList := Softwareadvice{}
-		err := productList.readJSON(*filePath)
+		err := productList.unmarshalJSON(sourceFile)
 		if err != nil {
 			os.Exit(1)
 		}
@@ -56,7 +61,7 @@ func main() {
 		}
 	} else {
 		productList := Capterra{}
-		err := productList.readYAML(*filePath)
+		err := productList.unmarshalYAML(sourceFile)
 		if err != nil {
 			os.Exit(1)
 		}

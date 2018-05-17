@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 )
 
 // Softwareadvice represent the main structure expected as imput
@@ -18,14 +17,8 @@ type Product struct {
 	Title      string   `json:"title"`
 }
 
-func (s *Softwareadvice) readJSON(filePath string) error {
-	raw, err := ioutil.ReadFile(filePath)
-	if err != nil {
-		fmt.Println(err.Error())
-		return err
-	}
-
-	json.Unmarshal(raw, &s)
+func (s *Softwareadvice) unmarshalJSON(fileSource []byte) error {
+	json.Unmarshal(fileSource, &s)
 	return nil
 }
 
